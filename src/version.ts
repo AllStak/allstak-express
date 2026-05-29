@@ -6,4 +6,4 @@ declare const __ALLSTAK_EXPRESS_VERSION__: string;
 
 export const SDK_NAME = '@allstak/express';
 export const SDK_VERSION: string =
-  typeof __ALLSTAK_EXPRESS_VERSION__ !== 'undefined' ? __ALLSTAK_EXPRESS_VERSION__ : '0.1.0';
+  typeof __ALLSTAK_EXPRESS_VERSION__ !== 'undefined' ? __ALLSTAK_EXPRESS_VERSION__ : '0.1.1';

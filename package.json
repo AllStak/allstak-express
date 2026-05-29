@@ -1,6 +1,6 @@
 {
   "name": "@allstak/express",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AllStak SDK for Express (beta). Auto-integration that wraps @allstak/js: request-span middleware, error-capture middleware, trace propagation, and a one-line setup.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

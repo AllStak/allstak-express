@@ -4,6 +4,15 @@ All notable changes to @allstak/express will be documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.1.1] — 2026-05-30
+
+Maintenance release. No public API changes; behaviour is identical to `0.1.0`.
+
+### Changed
+- Hardened the release pipeline so published builds are produced and verified
+  consistently from a clean checkout.
+- Synced the internal SDK version constant with the package version.
+
 ## [0.1.0] — 2026-05-29
 
 Initial beta release. `@allstak/express` is a thin Express auto-integration that
