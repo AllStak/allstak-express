@@ -86,7 +86,8 @@ jobs:
           NPM_CONFIG_PROVENANCE: 'true'
         run: |
           TARBALL="$(cat pack/tarball-path.txt)"
-          npm publish "$TARBALL" --access public --tag beta --provenance
+          # GA release → default 'latest' dist-tag (not a prerelease channel).
+          npm publish "$TARBALL" --access public --provenance
       - name: Verify published package
         if: steps.published.outputs.exists != 'true' && (github.event_name == 'push' || inputs.dry_run == false)
         run: |
@@ -94,5 +95,17 @@ jobs:
           TMP="$(mktemp -d)"
           cd "$TMP"
           npm init -y >/dev/null
-          npm install "@allstak/express@$PKG_VERSION" express @allstak/js >/dev/null
+          # A brand-new scoped package can take a couple of minutes to reach
+          # the public read replicas after a successful publish. Retry with
+          # backoff so propagation lag doesn't false-fail the release.
+          for attempt in 1 2 3 4 5 6; do
+            if npm install "@allstak/express@$PKG_VERSION" express @allstak/js >/dev/null 2>&1; then
+              break
+            fi
+            if [ "$attempt" = "6" ]; then
+              echo "package not visible after retries" >&2; exit 1
+            fi
+            echo "not visible yet (attempt $attempt) — waiting 20s for registry propagation"
+            sleep 20
+          done
           node -e "const sdk=require('@allstak/express'); if (!sdk.allstakExpress) throw new Error('published package missing CJS export')"
